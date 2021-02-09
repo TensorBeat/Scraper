@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.8 as dev
 
 # install poetry
 ENV POETRY_HOME="/opt/poetry" \
@@ -6,6 +6,9 @@ ENV POETRY_HOME="/opt/poetry" \
     POETRY_NO_INTERACTION=1
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
 ENV PATH="$POETRY_HOME/bin:$PATH"
+
+
+FROM dev
 
 WORKDIR /app
 
