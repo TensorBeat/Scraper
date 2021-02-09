@@ -37,5 +37,10 @@ async def main():
     blob.download_to_filename("song.mp3")
 
 
-if __name__ == "__main__":
+# Entrypoint for poetry run main
+def init():
     asyncio.run(main())
+
+
+if __name__ == "__main__":
+    init()

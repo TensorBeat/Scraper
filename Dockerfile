@@ -1,23 +1,22 @@
 FROM python:3.8
 
+# install poetry
 ENV POETRY_HOME="/opt/poetry" \
-    # make poetry create the virtual environment in the project's root
-    # it gets named `.venv`
     POETRY_VIRTUALENVS_IN_PROJECT=true \
-    # do not ask any interactive question
     POETRY_NO_INTERACTION=1
-
-
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
-
 ENV PATH="$POETRY_HOME/bin:$PATH"
 
 WORKDIR /app
 
+# Install dependencies
 COPY poetry.lock pyproject.toml poetry.toml ./
 RUN poetry install --no-dev
 
-COPY tensorbeat_scraper .
+#Copy over prod files
+COPY gcp-admin-key.json .env ./
+COPY /tensorbeat_scraper ./tensorbeat_scraper
+RUN poetry install --no-dev
 
-RUN ["poetry", "run", "main"]
+CMD ["poetry", "run", "main"]
 
