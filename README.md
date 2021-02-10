@@ -7,7 +7,7 @@ Scrapes the web for songs, pushes them to google storage, and indexes them in th
 - Docker
 - make
 - python 3.8+
-- poetry
+- poetry https://python-poetry.org/docs/#installation
 
 # Setup
 
