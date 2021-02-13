@@ -26,15 +26,15 @@ async def main():
     # response = await data_service.add_songs(songs=[song])
     # print(response)
 
-    # # don't forget to close the channel when done!
-    # channel.close()
-
     storage_client = storage.Client()
 
     bucket = storage_client.bucket("test-tensorbeat-songs")
 
     blob = bucket.blob("song.mp3")
     blob.download_to_filename("song.mp3")
+
+    # # don't forget to close the channel when done!
+    # channel.close()
 
 
 # Entrypoint for poetry run main
