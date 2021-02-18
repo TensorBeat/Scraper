@@ -1,3 +1,4 @@
+from tensorbeat_scraper.generated.tensorbeat.common import AddFile
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -10,21 +11,24 @@ import asyncio
 
 from grpclib.client import Channel
 
-from tensorbeat_scraper.generated.protos.common import File
-from tensorbeat_scraper.generated.protos.datalake import DatalakeServiceStub
-
+from grpclib.client import Channel
+from tensorbeat_scraper.generated.tensorbeat.datalake import DatalakeServiceStub
 
 from google.cloud import storage
 
 
 async def main():
-    # channel = Channel(host="127.0.0.1", port=50051)
 
-    # data_service = DatalakeServiceStub(channel)
+    channel = Channel(host="grpc.test.tensorbeat.com", port=50051)
+    datalake = DatalakeServiceStub(channel)
 
-    # song = File("gs://", {"genre": "rock"})
-    # response = await data_service.add_songs(songs=[song])
-    # print(response)
+    res = await datalake.get_all_songs()
+
+    print(res.songs)
+
+    # This downloads a file from a cloud bucket
+    # This link shows how to upload:
+    # https://cloud.google.com/storage/docs/uploading-objects#storage-upload-object-python
 
     storage_client = storage.Client()
 
@@ -32,6 +36,18 @@ async def main():
 
     blob = bucket.blob("song.mp3")
     blob.download_to_filename("song.mp3")
+
+    # upload the file
+
+    file = AddFile(
+        mime_type="audio/mpeg",
+        name="Test",
+        tags={"genre": "rock"},
+        uri="gs://test-tensorbeat-songs/song.mp3",
+    )
+
+    # to actually add to datalake
+    # datalake.add_songs([file])
 
     # # don't forget to close the channel when done!
     # channel.close()

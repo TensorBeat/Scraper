@@ -20,3 +20,10 @@ Scrapes the web for songs, pushes them to google storage, and indexes them in th
 # Docs
 
 - https://github.com/danielgtaylor/python-betterproto
+
+# Tags
+
+| Name       | Description                    |
+| ---------- | ------------------------------ |
+| genre      | genre of music                 |
+| source_url | where song was downloaded from |
