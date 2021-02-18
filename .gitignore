@@ -5,3 +5,4 @@ logs
 dist
 debug.log
 gcp-admin-key.json
+env
